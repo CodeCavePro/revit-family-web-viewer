@@ -1,0 +1,32 @@
+{
+  "name": "revit-web-viewer",
+  "license": "GPL",
+  "version": "0.0.1",
+  "description": "Revit Web Viewer is a Three.js-based project viewer",
+  "keywords": [
+    "revit",
+    "web",
+    "viewer",
+    "three.js",
+    "project",
+    "model",
+    "3D"
+  ],
+  "dependencies": {
+    "three": "^0.87.1",
+    "jquery": "^3.2.1"
+  },
+  "homepage": "https://github.com/OpenHoReCa/revit-web-viewer#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/OpenHoReCa/revit-web-viewer.git"
+  },
+  "author": {
+    "name": "Zhmayev Yaroslav",
+    "email": "salaros@salaros.com",
+    "url": "http://salaros.com"
+  },
+  "bugs": {
+    "url": "https://github.com/OpenHoReCa/revit-web-viewer/issues"
+  }
+}
