@@ -1,0 +1,29 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "type"      : "chrome",
+            "request"   : "launch",
+            "name"      : "Launch Chrome",
+            "url"       : "${workspaceRoot}/index.html",
+            "webRoot"   : "${workspaceRoot}",
+            "windows": {
+                "url"       : "${workspaceRoot}\\index.html"
+            },
+            "runtimeArgs": [ 
+                "--allow-file-access-from-files"
+            ]
+        },
+        {
+            "type"      : "firefox",
+            "request"   : "launch",
+            "name"      : "Launch Firefox",
+            "reAttach"  : true,
+            "file"      : "${workspaceFolder}/index.html",
+            "webRoot"   : "${workspaceRoot}",
+            "windows": {
+                "file"      : "${workspaceRoot}\\index.html"
+            }
+        }
+    ]
+}
