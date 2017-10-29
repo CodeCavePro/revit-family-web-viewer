@@ -1,0 +1,8 @@
+{
+    // Exclude files from VS Code's file explorer
+    "files.exclude": {
+        "**/node_modules"       : true,
+        "**/package-lock.json"  : true,
+        "**/yarn.lock"          : true
+    }
+}
