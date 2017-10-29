@@ -4,5 +4,9 @@
         "**/node_modules"       : true,
         "**/package-lock.json"  : true,
         "**/yarn.lock"          : true
-    }
+    },
+
+    // Easy SASS (VS Code) extension's settings
+    "easysass.excludeRegex"     : "^(?!main.scss).+",
+    "easysass.targetDir"        : "assets/css"
 }
