@@ -11,12 +11,15 @@
         <link href="assets/css/main.min.css" rel="stylesheet" type="text/css" />    
     </head>
     <body>
-        <div class="revit viewer"></div>
+        <div id="main" class="revit viewer">
+            <canvas class="output canvas"></canvas>
+        </div>
 
         <script async src="node_modules/jquery/dist/jquery.min.js"></script>
         <script src="node_modules/three/build/three.min.js"></script>
         <script src="node_modules/three/examples/js/controls/OrbitControls.js"></script>
         <script src="node_modules/three/examples/js/renderers/Projector.js"></script>
+        <script defered src="assets/js/rwv.js"></script>
         <script defered src="assets/js/main.js"></script>
     </body>
 </html>
