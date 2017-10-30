@@ -1,7 +1,7 @@
 
 var RWV = {
     scene                   : {},                       // scene allows you to set up what and where is to be rendered by three.js
-    renderer                : {},
+    renderer                : {},                       // WebGL scene renderer
     orbitControls           : {},                       // orbit controls object
     clock                   : new THREE.Clock(),        // Set up clock. Perspective camera uses it
     loader                  : new THREE.ObjectLoader(), // a loader for loading a JSON resource
@@ -43,7 +43,7 @@ RWV.init = function(canvasElement) {
     );
 
     // tweaking the renderer object
-    RWV.renderer.setClearColor(0x000000, 0.0);
+    RWV.renderer.setClearColor( 0x000000, 0.0 );
     RWV.renderer.setSize( window.innerWidth, window.innerHeight );
 
     // tweaking camera object
@@ -73,7 +73,7 @@ RWV.bindEvents = function() {
 
 // starts three.js renderer
 RWV.triggerRender = function() {
-    RWV.orbitControls.update(RWV.clock.getDelta());
-    RWV.renderer.render(RWV.scene, RWV.orbitControls.object);
-    requestAnimationFrame(RWV.triggerRender);
+    RWV.orbitControls.update( RWV.clock.getDelta() );
+    requestAnimationFrame( RWV.triggerRender );
+    RWV.renderer.render( RWV.scene, RWV.orbitControls.object );
 };
