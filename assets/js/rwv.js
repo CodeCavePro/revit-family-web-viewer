@@ -77,3 +77,34 @@ RWV.triggerRender = function() {
     requestAnimationFrame( RWV.triggerRender );
     RWV.renderer.render( RWV.scene, RWV.orbitControls.object );
 };
+
+// this function is called when the JSON model's content has been loaded successfully
+RWV.loader.loadSuccess = function(jsonModel) {
+    RWV.scene = new THREE.Scene();
+    RWV.model.object = RWV.loader.parse( jsonModel );
+    RWV.scene.add( RWV.model.object );
+
+    RWV.model.bounds();
+    RWV.model.zoom();
+    RWV.lights.create();
+};
+
+// this function is called when the JSON model's content failed to load
+RWV.loader.loadFailed = function() {
+    console.log( 'Failed to load JSON model' );
+};
+
+// loads JSON model from URL
+RWV.loader.loadFromUrl = function(jsonUrl) {
+    console.log( 'Loading JSON model from the following URL: ' + jsonUrl );
+    jQuery.ajax(
+        {
+            url         : jsonUrl,
+            method      : "GET",
+            dataType    : "json",
+            cache       : false,
+            success     : RWV.loader.loadSuccess,
+            error       : RWV.loader.loadFailed,
+        }
+    );
+};
