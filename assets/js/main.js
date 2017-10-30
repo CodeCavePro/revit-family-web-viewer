@@ -1,3 +1,4 @@
 jQuery(document).ready(function($) {
-    // Revit Web Viewer code goes here
+    var canvasElement = document.getElementById('main').getElementsByClassName('output canvas');
+    RWV.init(canvasElement);
 });
