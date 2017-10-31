@@ -84,9 +84,10 @@ RWV.loader.loadSuccess = function(jsonModel) {
     RWV.model.object = RWV.loader.parse( jsonModel );
     RWV.scene.add( RWV.model.object );
 
-    RWV.model.bounds();
-    RWV.model.zoom();
+    RWV.model.getBoundingFigures();
+    RWV.camera.fit();
     RWV.lights.create();
+
 };
 
 // this function is called when the JSON model's content failed to load
@@ -107,4 +108,77 @@ RWV.loader.loadFromUrl = function(jsonUrl) {
             error       : RWV.loader.loadFailed,
         }
     );
+};
+
+RWV.model.getBoundingFigures = function() {
+    //loop over the children of the THREE scene, merge them into a mesh,
+    //and compute a bounding sphere for the scene
+    var geometry = new THREE.Geometry();
+    RWV.scene.traverse( function(child) {
+        if(child instanceof THREE.Mesh) {
+            geometry.merge( child.geometry );
+        }
+    });
+
+    //expand the scope of the bounding sphere
+    geometry.computeBoundingSphere();
+    RWV.model.boundingSphere = geometry.boundingSphere;
+
+    geometry.computeBoundingBox();
+    RWV.model.boundingBox = geometry.boundingBox;
+
+    RWV.model.geometry = geometry;
+};
+
+RWV.camera.fit = function() {
+    //point the camera at the center of the sphere
+    RWV.orbitControls.target = RWV.model.boundingSphere.center;
+
+    var zAxis = new THREE.Vector3(0,0,1);
+    var direction = zAxis.applyQuaternion(RWV.orbitControls.object.quaternion);
+    var offset = RWV.model.boundingSphere.radius / Math.tan(Math.PI / 180.0 * RWV.orbitControls.object.fov * 0.5);
+    direction.multiplyScalar(offset * 1.25);
+
+    var newCameraPosition = new THREE.Vector3();
+    newCameraPosition.addVectors(RWV.model.boundingSphere.center, direction);
+    RWV.camera.position.set(newCameraPosition.x, newCameraPosition.y, newCameraPosition.z);
+    RWV.camera.position = newCameraPosition;
+};
+
+RWV.lights.create = function() {
+    console.log('Creating lights');
+
+    var offset = RWV.model.boundingSphere.radius * 6; // get the radius of the bounding sphere for placing lights at certain distance from the object
+    var center = RWV.model.boundingSphere.center; // get the center of the bounding sphere for pointing lights at it
+
+    // the sun as directional light
+    RWV.lights.sunLight = new THREE.DirectionalLight( RWV.lights.spotlightsColor );
+    RWV.lights.sunLight.name = "The sun :)";
+    RWV.lights.sunLight.position.set( center.x + offset, center.y + offset, -center.z-offset );
+    RWV.lights.sunLight.position.multiplyScalar( 50);
+    RWV.lights.sunLight.target.position.set( center.x, center.y, center.z );
+    RWV.scene.add( RWV.lights.sunLight );
+
+    // create a global ambient light object
+    RWV.lights.ambientLight = new THREE.AmbientLight( RWV.lights.ambientLightColor );
+    RWV.lights.ambientLight.name = "Regular ambient light";
+    RWV.scene.add( RWV.lights.ambientLight );
+
+    // create a hemisphere light object
+    RWV.lights.hemisphereLight = new THREE.HemisphereLight(0x303030, 0x909090, 0.75);
+    RWV.lights.hemisphereLight.position.set( center.x + offset, center.y + offset, center.z + offset );
+    RWV.scene.add(RWV.lights.hemisphereLight);
+
+    // create 2 spotlights
+    var spotLight1 = new THREE.SpotLight( RWV.lights.spotlightsColor, 0.75 );
+    spotLight1.position.set( -center.x - offset / 2, center.y + offset / 1.5, -center.z - offset / 2 );
+    spotLight1.target.position.set( center.x, center.y, center.z );
+    RWV.scene.add(spotLight1);
+    RWV.lights.spotLights.push(spotLight1);
+
+    var spotLight2 = new THREE.SpotLight( RWV.lights.spotlightsColor, 0.75 );
+    spotLight2.position.set( center.x + offset / 2, center.y + offset / 1.5, -center.z - offset / 2 );
+    spotLight2.target.position.set( center.x, center.y, center.z );
+    RWV.scene.add( spotLight2 );
+    RWV.lights.spotLights.push(spotLight2);
 };
