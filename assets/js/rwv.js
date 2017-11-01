@@ -28,10 +28,21 @@ var RWV = {
         boundingSphere      : {},                       // bounding sphere that encompasses everything in the scene
         boundingBox         : {},                       // bounding box for the Geometry, which can be calculated with
     },
+    options: {
+        background : {
+            enabled         : false,
+            color           : 'linear-gradient(141deg, #0fb8ad 0%, #1fc8db 51%, #2cb5e8 75%)'
+        }
+    }
 };
 
 // initializes WebGL renderer and orbit controls
 RWV.init = function(viewerDiv) {
+
+    // Set background color of the body element if needed
+    if (RWV.options.background.enabled) {
+        document.getElementsByTagName("body")[0].style.background = RWV.options.background.color;
+    }
 
     RWV.renderer = new THREE.WebGLRenderer(  // the WebGL renderer displays your beautifully crafted scenes using WebGL. 
         {
