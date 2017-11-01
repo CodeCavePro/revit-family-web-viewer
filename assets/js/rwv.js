@@ -29,11 +29,12 @@ var RWV = {
         boundingBox         : {},                       // bounding box for the Geometry, which can be calculated with
     },
     options: {
-        background : {
+        background: {
             enabled         : false,
             color           : 'linear-gradient(141deg, #0fb8ad 0%, #1fc8db 51%, #2cb5e8 75%)'
-        }
-    }
+        },
+        originToCenter      : false,
+    },
 };
 
 // initializes WebGL renderer and orbit controls
@@ -97,7 +98,21 @@ RWV.loader.loadSuccess = function(jsonModel) {
     RWV.model.object = RWV.loader.parse( jsonModel );
     RWV.scene.add( RWV.model.object );
 
+    // Compute bounding box for geometry-related operations and bounding sphere for lights
     RWV.model.getBoundingFigures();
+
+    if (RWV.options.originToCenter) {
+        var modelWidth = RWV.model.boundingBox.max.x - RWV.model.boundingBox.min.x;
+        var modelHeight = RWV.model.boundingBox.max.z - RWV.model.boundingBox.min.z;
+        RWV.model.object.traverse( function ( child ) {            
+            if ( ! ( child instanceof THREE.Mesh ) ) return false;
+            child.geometry.translate(modelWidth / 2, 0, modelHeight / 2);          
+        });
+    
+        // Re-compute bounds after moving the object
+        RWV.model.getBoundingFigures();
+    }
+
     RWV.camera.fit();
     RWV.lights.create();
 
