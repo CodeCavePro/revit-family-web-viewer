@@ -33,6 +33,10 @@ var RWV = {
             enabled         : false,
             color           : 'linear-gradient(141deg, #0fb8ad 0%, #1fc8db 51%, #2cb5e8 75%)'
         },
+        rotation: {
+            enabled         : false,
+            speed           : 0.0015
+        },
         originToCenter      : false,
     },
 };
@@ -88,6 +92,10 @@ RWV.triggerRender = function() {
     RWV.orbitControls.update( RWV.clock.getDelta() );
     requestAnimationFrame( RWV.triggerRender );
     RWV.renderer.render( RWV.scene, RWV.orbitControls.object );
+
+    if (RWV.model.pivot && RWV.model.pivot.rotation && RWV.options.rotation.enabled && RWV.options.rotation.speed !== 0.0) {
+        RWV.model.pivot.rotation.y = RWV.model.pivot.rotation.y - RWV.options.rotation.speed;
+    }
 };
 
 // this function is called when the JSON model's content has been loaded successfully
@@ -96,12 +104,14 @@ RWV.loader.loadSuccess = function(jsonModel) {
 
     RWV.scene = new THREE.Scene();
     RWV.model.object = RWV.loader.parse( jsonModel );
-    RWV.scene.add( RWV.model.object );
+    RWV.model.pivot = new THREE.Object3D();
+    RWV.model.pivot.add( RWV.model.object );
+    RWV.scene.add( RWV.model.pivot );
 
     // Compute bounding box for geometry-related operations and bounding sphere for lights
     RWV.model.getBoundingFigures();
 
-    if (RWV.options.originToCenter) {
+    if (RWV.options.originToCenter || RWV.options.rotation.enabled) {
         var modelWidth = RWV.model.boundingBox.max.x - RWV.model.boundingBox.min.x;
         var modelHeight = RWV.model.boundingBox.max.z - RWV.model.boundingBox.min.z;
         RWV.model.object.traverse( function ( child ) {            
