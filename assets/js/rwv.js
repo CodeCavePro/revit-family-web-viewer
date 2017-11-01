@@ -31,11 +31,10 @@ var RWV = {
 };
 
 // initializes WebGL renderer and orbit controls
-RWV.init = function(canvasElement) {
+RWV.init = function(viewerDiv) {
 
     RWV.renderer = new THREE.WebGLRenderer(  // the WebGL renderer displays your beautifully crafted scenes using WebGL. 
         {
-            domElement      : canvasElement,
             alpha           : true,
             antialias       : true,
             maxLights       : 5
@@ -45,6 +44,8 @@ RWV.init = function(canvasElement) {
     // tweaking the renderer object
     RWV.renderer.setClearColor( 0x000000, 0.0 );
     RWV.renderer.setSize( window.innerWidth, window.innerHeight );
+    RWV.renderer.shadowMap.enabled = false;
+    viewerDiv.append( RWV.renderer.domElement );
 
     // tweaking camera object
     RWV.camera.position.set( -window.innerHeight, window.innerHeight / 6, -window.innerHeight );
@@ -64,7 +65,6 @@ RWV.bindEvents = function() {
         RWV.orbitControls.object.updateProjectionMatrix();
 
         RWV.camera.aspect = window.innerWidth / window.innerHeight;
-        RWV.camera.position.set( -window.innerHeight, window.innerHeight / 6, -window.innerHeight );
         RWV.camera.updateProjectionMatrix();
     
         RWV.renderer.setSize( window.innerWidth, window.innerHeight );
