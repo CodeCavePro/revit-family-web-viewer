@@ -80,6 +80,8 @@ RWV.triggerRender = function() {
 
 // this function is called when the JSON model's content has been loaded successfully
 RWV.loader.loadSuccess = function(jsonModel) {
+    console.log( 'The model has been loaded successful' );
+
     RWV.scene = new THREE.Scene();
     RWV.model.object = RWV.loader.parse( jsonModel );
     RWV.scene.add( RWV.model.object );
