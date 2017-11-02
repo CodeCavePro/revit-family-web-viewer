@@ -69,6 +69,9 @@ RWV.init = function(viewerDiv) {
     // set up orbit controls object
     RWV.orbitControls = new THREE.OrbitControls( RWV.camera, RWV.renderer.domElement );
 
+    // tweak orbit controls in order to uncover the "top edge" of the object
+    RWV.orbitControls.target.set( 0, -window.innerHeight / 2, 0 );
+
     RWV.bindEvents();
     RWV.triggerRender();
 };
