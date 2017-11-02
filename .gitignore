@@ -28,4 +28,7 @@ build/Release
 node_modules
 
 # Exclude CSS files (only SCSS files must be versioned)
-assets/css
+dist/css
+
+# Exclude JavaScript files (only TypeScript files must be versioned)
+dist/js
