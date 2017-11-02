@@ -8,5 +8,5 @@
 
     // Easy SASS (VS Code) extension's settings
     "easysass.excludeRegex"     : "^(?!main.scss).+",
-    "easysass.targetDir"        : "assets/css"
+    "easysass.targetDir"        : "dist/css"
 }
