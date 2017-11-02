@@ -27,3 +27,7 @@ gulp.task('browserify',  function() {
 gulp.task('watch', ['scripts', 'browserify'], function() {
     gulp.watch('./src/*.ts', ['scripts', 'browserify']);
 });
+
+gulp.task('default', ['scripts', 'browserify'], function() {
+    // Just build scripts and run browserify
+});

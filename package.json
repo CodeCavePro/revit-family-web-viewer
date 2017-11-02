@@ -36,7 +36,8 @@
     "webpack": "^3.8.1"
   },
   "scripts": {
-    "build": "webpack --config webpack.config.js"
+    "webpack": "webpack --config webpack.config.js --progress --colors",
+    "gulp": "gulp"
   },
   "homepage": "https://github.com/OpenHoReCa/revit-web-viewer#readme",
   "repository": {
