@@ -31,7 +31,7 @@ var RWV = {
     options: {
         background: {
             enabled         : false,
-            color           : 'linear-gradient(141deg, #0fb8ad 0%, #1fc8db 51%, #2cb5e8 75%)'
+            color           : 'linear-gradient(141deg, #5D8CAE 0%, #317589 51%, #4D8FAC 75%)'
         },
         rotation: {
             enabled         : false,
