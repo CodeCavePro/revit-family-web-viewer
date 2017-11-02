@@ -2,7 +2,7 @@
     // Exclude files from VS Code's file explorer
     "files.exclude": {
         "**/node_modules"       : true,
-        "**/yarn.lock"          : true
+        "**/yarn.lock"          : false
     },
 
     // Easy SASS (VS Code) extension's settings
