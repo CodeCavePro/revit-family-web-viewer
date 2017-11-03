@@ -1,7 +1,6 @@
+import { WebViewer } from './WebViewer';;
 
-import { RevitWebViewer } from './RevitWebViewer';
-
-let rwv = new RevitWebViewer();
+let rwv = new WebViewer();
 rwv.clock.start();
 
 console.log('Revit Web Viewer has been initialized successfully!');

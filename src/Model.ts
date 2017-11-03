@@ -5,7 +5,7 @@ import * as WebRequest from 'web-request';
  * Wraps all model-related functionality
  * @class RevitModel
  */
-class RevitModel {
+export class Model {
     object                  : Object3D;             // Revit 3D model, provides a set of properties and methods for manipulating objects in 3D space
     loader                  : ObjectLoader;         // a loader for loading a JSON resource
     geometry                : Geometry;             // the geometry of currently loaded object
@@ -69,7 +69,4 @@ class RevitModel {
 
         this.geometry = geometry;
     };
-    
 }
-
-export {RevitModel}

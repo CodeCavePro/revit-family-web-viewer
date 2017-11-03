@@ -1,18 +1,17 @@
 import { Clock, Scene, WebGLRenderer, OrbitControls, PerspectiveCamera } from 'three';
-import { RevitModel } from "./RevitModel";
+import { Model } from "./Model";
 
 /**
  * The main Revit Web Viewer class 
  * @class RevitWebViewer
  */
-class RevitWebViewer {
+export class WebViewer {
     clock                   : Clock;              // Set up clock. Perspective camera uses it
     scene                   : Scene;              // scene allows you to set up what and where is to be rendered by three.js
     renderer                : WebGLRenderer;      // WebGL scene renderer
     orbitControls           : OrbitControls;      // orbit controls object
     camera                  : PerspectiveCamera;  // perspective camera is designed to mimic the way the human eye sees
-
-    model                   : RevitModel;
+    model                   : Model;
 
     /**
      * Creates an instance of RevitWebViewer.
@@ -28,8 +27,6 @@ class RevitWebViewer {
             1000000                                      // far — Camera frustum far plane.
         );
 
-        this.model = new RevitModel();
+        this.model = new Model();
     }
 }
-
-export {RevitWebViewer};
