@@ -1,6 +1,6 @@
 {
     "compilerOptions": {
-        "target": "es5",
+        "target": "es2017",
         "module": "commonjs",
         "moduleResolution": "node",
         "lib": [
@@ -20,6 +20,7 @@
         ],
         "allowJs": true,
         "importHelpers": true,
+        "noEmitHelpers": true,
         "alwaysStrict": true,
         "sourceMap": true,
         "forceConsistentCasingInFileNames": true,
