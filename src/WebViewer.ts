@@ -115,7 +115,10 @@ export class WebViewer {
                 this.model = new Model( object3D );
 
                 this.lights = new Lights( this.model.boundingSphere );
-                this.lights.addToScene( this.scene ); // addToScene( this.scene );
+                this.lights.applyLights(
+                    this.scene,
+                    this.model.pivot
+                );
 
                 this.scene.add( this.model.pivot ); // add( this.model.object );
 

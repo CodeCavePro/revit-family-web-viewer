@@ -18,7 +18,7 @@ export class Lights {
         var center = boundingSphere.center;         // get the center of the bounding sphere for pointing lights at it
     
         // the sun as directional light
-        this.sunLight = new DirectionalLight( Lights.lightColorBright );
+        this.sunLight = new DirectionalLight( Lights.lightColorDark );
         this.sunLight.name = "The sun :)";
         this.sunLight.position.set( center.x + offset, center.y + offset, -center.z-offset );
         this.sunLight.position.multiplyScalar( 50 );
@@ -33,7 +33,7 @@ export class Lights {
         this.hemisphereLight.name = "Mild hemisphere light";
         this.hemisphereLight.position.set( center.x + offset, center.y + offset, center.z + offset );
 
-        let spotLight1 = new SpotLight( Lights.lightColorNeutral, Lights.lightOpacity );
+        let spotLight1 = new SpotLight( Lights.lightColorBright, Lights.lightOpacity );
         spotLight1.position.set( -center.x - offset / 2, center.y + offset / 1.5, -center.z - offset / 2 );
         spotLight1.target.position.set( center.x, center.y, center.z );
 
@@ -45,12 +45,12 @@ export class Lights {
         this.spotLights = [ spotLight1, spotLight2 ];
     }
 
-    addToScene( scene : Object3D | Scene ) {
+    applyLights( scene : Scene, privot : Object3D ) {
         scene.add( this.sunLight );
         scene.add( this.ambientLight );
         scene.add( this.hemisphereLight );
         this.spotLights.forEach(spotLight => {
-            scene.add( spotLight );
+            privot.add( spotLight );
         });
     }
 }
