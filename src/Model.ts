@@ -1,5 +1,4 @@
 import { ObjectLoader, Object3D, Geometry, BufferGeometry, Box3, Sphere, Mesh } from 'three';
-import * as WebRequest from 'web-request';
 
 /**
  * Wraps all model-related functionality
@@ -31,12 +30,17 @@ export class Model {
     /**
      * Loads model object from URL
      * @param {string} url 
-     * @returns {Promise<Object3D>} 
+     * @returns {Promise<Object3D>}
      * @memberof RevitModel
      */
     static async loadFromURL(url : string) : Promise<Object3D> {
-        let modelData = await WebRequest.get(url);
-        let modelJson = JSON.parse(modelData.content);
+        let modelJson = {};
+        try{
+            let modelText = await Model.getFromURL(url);
+            modelJson = JSON.parse(modelText);
+        } catch(e) {
+            console.error(e);
+        }
         return Model.loadFromJSON( modelJson );
     }
 
@@ -50,10 +54,37 @@ export class Model {
         try {
             let object = Model.loader.parse( modelJson );
             return object;
-        } catch {
+        } catch(e) {
+            console.error(e);
             return null;
         }
     }
+
+    /**
+     * Get model's JSON text content from URL
+     * @param url 
+     */
+    static getFromURL(url) : Promise<string>{
+        return new Promise<string>(
+            (resolve, reject) => {
+                const request = new XMLHttpRequest();
+                request.onload = () => {
+                    if(4 === request.readyState) {
+                        if (200 === request.status || 0 === request.status) {
+                            resolve(request.response);
+                        } else {
+                            reject(new Error(request.statusText));
+                        }
+                    }
+                };
+                request.onerror = () => {
+                    reject(new Error('XMLHttpRequest Error: '+ request.statusText));
+                };
+                request.open('GET', url);
+                request.send();
+            }
+        );
+    };
 
     /**
      * Loops over the children of the THREE scene, merge them into a mesh,
