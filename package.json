@@ -1,7 +1,6 @@
 {
   "name": "revit-web-viewer",
-  "license": "GPL",
-  "version": "0.0.1",
+  "license": "GPLv3",
   "description": "Revit Web Viewer is a Three.js-based project viewer",
   "main": "src/index.js",
   "keywords": [
