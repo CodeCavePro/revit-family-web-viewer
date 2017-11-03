@@ -63,6 +63,11 @@ export class WebViewer {
 
         element.appendChild( this.renderer.domElement );
 
+        // Set background color of the body element if needed 
+        if (this.options.background) {
+            document.getElementsByTagName("body")[0].style.background = this.options.background; 
+        }
+
         this.bindEvents();
         this.render();
     }
