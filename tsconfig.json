@@ -1,0 +1,56 @@
+{
+    "compilerOptions": {
+        "target": "es5",
+        "module": "commonjs",
+        "moduleResolution": "node",
+        "lib": [
+            "dom",
+            "es2015",
+            "es2015.promise",
+            "es2016",
+            "es2017.object",
+            "es5",
+            "es6"
+        ],
+        "types": [
+            "node"
+        ],
+        "typeRoots": [
+            "node_modules/@types"
+        ],
+        "allowJs": true,
+        "importHelpers": true,
+        "alwaysStrict": true,
+        "sourceMap": true,
+        "forceConsistentCasingInFileNames": true,
+        "noFallthroughCasesInSwitch": true,
+        "noImplicitReturns": true,
+        "noUnusedLocals": true,
+        "noUnusedParameters": true,
+        "noImplicitAny": false,
+        "noImplicitThis": false,
+        "strictNullChecks": false,
+        "allowSyntheticDefaultImports": true,
+        "experimentalDecorators": true,
+        "noEmitOnError": true,
+        "emitDecoratorMetadata": true,
+        "removeComments": false,
+        "outDir": "./dist/js/",
+        "rootDir": "./src/",
+        "baseUrl": "./src"
+    },
+    "exclude": [
+        "bin",
+        "test",
+        "dist",
+        "node_modules",
+        "webpack.config.js",
+        "gulpfile.js"
+    ],
+    "awesomeTypescriptLoaderOptions": {
+        "forkChecker": true,
+        "useWebpackText": true
+    },
+    "compileOnSave": false,
+    "buildOnSave": false
+}

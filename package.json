@@ -3,6 +3,7 @@
   "license": "GPL",
   "version": "0.0.1",
   "description": "Revit Web Viewer is a Three.js-based project viewer",
+  "main": "src/index.js",
   "keywords": [
     "revit",
     "web",
@@ -13,8 +14,31 @@
     "3D"
   ],
   "dependencies": {
+    "requirejs": "^2.3.5"
+  },
+  "devDependencies": {
+    "@types/node": "^8.0.47",
+    "@types/three": "^0.84.28",
+    "browserify": "^14.5.0",
+    "file-loader": "^1.1.5",
+    "gulp": "^3.9.1",
+    "gulp-bro": "^1.0.2",
+    "gulp-rename": "^1.2.2",
+    "gulp-sourcemaps": "^2.6.1",
+    "gulp-typescript": "^3.2.3",
+    "json-loader": "^0.5.7",
+    "source-map": "^0.6.1",
     "three": "^0.87.1",
-    "jquery": "^3.2.1"
+    "three-orbitcontrols-ts": "^0.1.2",
+    "ts-loader": "^3.1.1",
+    "tslib": "^1.8.0",
+    "typescript": "^2.6.1",
+    "web-request": "^1.0.7",
+    "webpack": "^3.8.1"
+  },
+  "scripts": {
+    "webpack": "webpack --config webpack.config.js --progress --colors",
+    "gulp": "gulp"
   },
   "homepage": "https://github.com/OpenHoReCa/revit-web-viewer#readme",
   "repository": {

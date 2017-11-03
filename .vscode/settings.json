@@ -2,11 +2,10 @@
     // Exclude files from VS Code's file explorer
     "files.exclude": {
         "**/node_modules"       : true,
-        "**/package-lock.json"  : true,
-        "**/yarn.lock"          : true
+        "**/yarn.lock"          : false
     },
 
     // Easy SASS (VS Code) extension's settings
     "easysass.excludeRegex"     : "^(?!main.scss).+",
-    "easysass.targetDir"        : "assets/css"
+    "easysass.targetDir"        : "dist/css"
 }

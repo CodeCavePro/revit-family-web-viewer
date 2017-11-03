@@ -11,7 +11,9 @@
                 "url"       : "${workspaceRoot}\\index.html"
             },
             "runtimeArgs": [ 
-                "--allow-file-access-from-files"
+                "--allow-file-access-from-files",
+                "--disable-web-security",
+                " --user-data-dir"
             ]
         },
         {
