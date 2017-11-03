@@ -14,7 +14,8 @@
     "3D"
   ],
   "dependencies": {
-    "requirejs": "^2.3.5"
+    "requirejs": "^2.3.5",
+    "three-orbitcontrols-ts": "^0.1.2"
   },
   "devDependencies": {
     "@types/node": "^8.0.47",

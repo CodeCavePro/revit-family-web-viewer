@@ -1,4 +1,6 @@
 import { Scene, WebGLRenderer, OrbitControls, PerspectiveCamera, Vector3 } from 'three';
+import { Scene, WebGLRenderer, PerspectiveCamera, Vector3 } from 'three';
+import { OrbitControls } from 'three-orbitcontrols-ts';
 import { Model } from "./Model";
 import { Lights } from "./Lights";
 
