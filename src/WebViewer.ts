@@ -1,7 +1,8 @@
-import { Scene, WebGLRenderer, PerspectiveCamera, Vector3 } from 'three';
+import { Scene, WebGLRenderer, PerspectiveCamera, Vector3, Mesh } from 'three';
 import { OrbitControls } from 'three-orbitcontrols-ts';
 import { Model } from "./Model";
 import { Lights } from "./Lights";
+import { WebViewerOptions } from "./WebViewerOptions";
 
 /**
  * The main Revit Web Viewer class
@@ -14,6 +15,7 @@ export class WebViewer {
     camera                  : PerspectiveCamera;    // perspective camera is designed to mimic the way the human eye sees
     model                   : Model;
     lights                  : Lights;
+    options                 : WebViewerOptions;
 
     /**
      * Creates an instance of RevitWebViewer.
@@ -35,6 +37,7 @@ export class WebViewer {
             }
         );
 
+        this.options = new WebViewerOptions();
         this.model = null;
         this.lights = null;
     };
@@ -111,6 +114,19 @@ export class WebViewer {
 
                 this.scene.add( this.model.pivot ); // add( this.model.object );
 
+                if (this.options.originToCenter || 0.0 !== this.options.rotation) {
+                    let modelWidth = this.model.boundingBox.max.x - this.model.boundingBox.min.x;
+                    let modelHeight = this.model.boundingBox.max.z - this.model.boundingBox.min.z;
+                    this.model.object.traverse( ( child ) => {            
+                        if ( ! ( child instanceof Mesh ) ) return false;
+                        child.geometry.translate(modelWidth / 2, 0, modelHeight / 2);       
+                        return true;   
+                    });
+                
+                    // Re-compute bounds after moving the object
+                    this.model.getBoundingFigures();
+                }
+
                 this.tweakCameraAndControls();
              })
             .catch(function (err) {
@@ -127,5 +143,9 @@ export class WebViewer {
         this.orbitControls.update();
         requestAnimationFrame( this.render );
         this.renderer.render( this.scene, this.orbitControls.object );
+
+        if (this.model && this.model.pivot && this.model.pivot.rotation && 0.0 !== this.options.rotation) {
+            this.model.pivot.rotation.y -= this.options.rotation;
+        }
     };
 }
