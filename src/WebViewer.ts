@@ -1,11 +1,10 @@
-import { Scene, WebGLRenderer, OrbitControls, PerspectiveCamera, Vector3 } from 'three';
 import { Scene, WebGLRenderer, PerspectiveCamera, Vector3 } from 'three';
 import { OrbitControls } from 'three-orbitcontrols-ts';
 import { Model } from "./Model";
 import { Lights } from "./Lights";
 
 /**
- * The main Revit Web Viewer class 
+ * The main Revit Web Viewer class
  * @class RevitWebViewer
  */
 export class WebViewer {
@@ -21,6 +20,7 @@ export class WebViewer {
      * @memberof RevitWebViewer
      */
     constructor() {
+        this.scene = new Scene();
         this.camera = new PerspectiveCamera(
             25,                                     // fov — Camera frustum vertical field of view.
             window.innerWidth / window.innerHeight, // spect — Camera frustum aspect ratio.
@@ -28,8 +28,40 @@ export class WebViewer {
             1000000                                 // far — Camera frustum far plane.
         );
 
+        this.renderer = new WebGLRenderer(          // the WebGL renderer displays your beautifully crafted scenes using WebGL. 
+            {
+                alpha           : true,
+                antialias       : true
+            }
+        );
+
         this.model = null;
         this.lights = null;
+    };
+
+    init( element : HTMLElement ) : void {
+
+        // tweaking the renderer object
+        this.renderer.setClearColor( 0x000000, 0.0 );
+        this.renderer.setSize( window.innerWidth, window.innerHeight );
+        this.renderer.shadowMap.enabled = false;
+
+        // tweaking camera object
+        this.camera.position.set( -window.innerHeight, window.innerHeight / 6, -window.innerHeight );
+
+        // set up orbit controls object
+        this.orbitControls = new OrbitControls( this.camera, this.renderer.domElement );
+        this.orbitControls.enableZoom = true;
+        this.orbitControls.zoomSpeed = 1.0;
+        this.orbitControls.enablePan = true; // Set to false to disable panning (ie vertical and horizontal translations) 
+
+        // tweak orbit controls in order to uncover the "top edge" of the object
+        this.orbitControls.target.set( 0, -window.innerHeight / 2, 0 );
+
+        element.appendChild( this.renderer.domElement );
+
+        this.bindEvents();
+        this.render();
     }
 
     /**
@@ -72,11 +104,11 @@ export class WebViewer {
 
         Model.loadFromURL(url)
             .then(function (object3D) {
-
+                this.scene = new Scene();
                 this.model = new Model( object3D );
 
                 this.lights = new Lights( this.model.boundingSphere );
-                this.lights.addToScene( this.model.pivot ); // addToScene( this.scene );
+                this.lights.addToScene( this.scene ); // addToScene( this.scene );
 
                 this.scene.add( this.model.pivot ); // add( this.model.object );
 
@@ -92,7 +124,7 @@ export class WebViewer {
      * Render the scene via three.js renderer
      * @memberof WebViewer
      */
-    render() {
+    render = () => {
         this.orbitControls.update();
         requestAnimationFrame( this.render );
         this.renderer.render( this.scene, this.orbitControls.object );
