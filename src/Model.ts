@@ -1,4 +1,4 @@
-import { ObjectLoader, Object3D, Geometry, Box3, Sphere, Mesh } from 'three';
+import { ObjectLoader, Object3D, Geometry, BufferGeometry, Box3, Sphere, Mesh } from 'three';
 import * as WebRequest from 'web-request';
 
 /**
@@ -6,8 +6,10 @@ import * as WebRequest from 'web-request';
  * @class RevitModel
  */
 export class Model {
+    static readonly loader  = new ObjectLoader();   // a loader for loading a JSON resource
+
     object                  : Object3D;             // Revit 3D model, provides a set of properties and methods for manipulating objects in 3D space
-    loader                  : ObjectLoader;         // a loader for loading a JSON resource
+    pivot                   : Object3D;             // needed for rotation and other stuff 
     geometry                : Geometry;             // the geometry of currently loaded object
     boundingSphere          : Sphere;               // bounding sphere that encompasses everything in the scene
     boundingBox             : Box3;                 // bounding box for the Geometry, which can be calculated with
@@ -16,9 +18,15 @@ export class Model {
      * Creates an instance of RevitModel.
      * @memberof RevitModel
      */
-    constructor() {
-        this.object = null;
-        this.loader = new ObjectLoader();        
+    constructor( object : Object3D ) {
+        
+        this.object = object;
+        this.pivot = new Object3D();
+        this.pivot.add( object );
+
+        // Compute bounding box for geometry-related operations
+        // and bounding sphere for lights
+        this.getBoundingFigures();
     }
 
     /**
@@ -27,10 +35,10 @@ export class Model {
      * @returns {Promise<Object3D>} 
      * @memberof RevitModel
      */
-    async loadFromURL(url : string) : Promise<Object3D> {
+    static async loadFromURL(url : string) : Promise<Object3D> {
         let modelData = await WebRequest.get(url);
         let modelJson = JSON.parse(modelData.content);
-        return this.loadFromJSON( modelJson );
+        return Model.loadFromJSON( modelJson );
     }
 
     /**
@@ -39,13 +47,13 @@ export class Model {
      * @returns {Object3D} 
      * @memberof RevitModel
      */
-    loadFromJSON( modelJson : Object) : Object3D {
-        this.object = this.loader.parse( modelJson );
-
-        // needed for rotation and other stuff
-        let pivot = new Object3D();
-        pivot.add(this.object);
-        return pivot;
+    static loadFromJSON( modelJson : Object) : Object3D {
+        try {
+            let object = Model.loader.parse( modelJson );
+            return object;
+        } catch {
+            return null;
+        }
     }
 
     /**
