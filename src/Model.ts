@@ -64,8 +64,14 @@ export class Model {
     getBoundingFigures() : void {
         let geometry = new Geometry();
         this.object.traverse( function(child) {
-            if(child instanceof Mesh && child.geometry instanceof Geometry) {
-                geometry.merge( child.geometry );
+            if(child instanceof Mesh ) {
+                if (child.geometry instanceof Geometry) {
+                    geometry.merge( child.geometry );
+                } else if (child.geometry instanceof BufferGeometry) {
+                    let convertedGeometry = new Geometry();
+                    convertedGeometry.fromBufferGeometry(child.geometry);
+                    geometry.merge( convertedGeometry );
+                }
             }
         });
 
