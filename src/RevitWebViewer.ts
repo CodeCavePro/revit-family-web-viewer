@@ -1,6 +1,10 @@
 import { Clock, Scene, WebGLRenderer, OrbitControls, PerspectiveCamera } from 'three';
 import { RevitModel } from "./RevitModel";
 
+/**
+ * The main Revit Web Viewer class 
+ * @class RevitWebViewer
+ */
 class RevitWebViewer {
     clock                   : Clock;              // Set up clock. Perspective camera uses it
     scene                   : Scene;              // scene allows you to set up what and where is to be rendered by three.js
@@ -10,6 +14,10 @@ class RevitWebViewer {
 
     model                   : RevitModel;
 
+    /**
+     * Creates an instance of RevitWebViewer.
+     * @memberof RevitWebViewer
+     */
     constructor() {
         this.clock = new Clock();
         this.clock = new Clock();
