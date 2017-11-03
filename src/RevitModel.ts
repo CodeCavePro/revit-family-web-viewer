@@ -33,7 +33,7 @@ class RevitModel {
         // and compute a bounding sphere for the scene
         let geometry = new Geometry();
         this.object.traverse( function(child) {
-            if(child instanceof Mesh) {
+            if(child instanceof Mesh && child.geometry instanceof Geometry) {
                 geometry.merge( child.geometry );
             }
         });
