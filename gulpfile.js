@@ -5,7 +5,7 @@ var ts = require('gulp-typescript');
 var tsProject = ts.createProject('tsconfig.json');
 var sourcemaps = require('gulp-sourcemaps');
 
-gulp.task('scripts', function() {
+gulp.task('ts-scripts', function() {
     var tsResult = gulp.src("./src/**/*.ts")
         .pipe(sourcemaps.init({largeFile: true, loadMaps: true}))
         .pipe(tsProject());
@@ -15,7 +15,7 @@ gulp.task('scripts', function() {
         .pipe(gulp.dest('./dist/js'));
 });
 
-gulp.task('browserify',  function() {
+gulp.task('browserify', ['ts-scripts'], function() {
     gulp.src('./dist/js/index.js')
     .pipe(sourcemaps.init({largeFile: true, loadMaps: true}))
     .pipe(bro())
@@ -24,10 +24,10 @@ gulp.task('browserify',  function() {
     .pipe(gulp.dest('./dist/js'));
 });
 
-gulp.task('watch', ['scripts', 'browserify'], function() {
-    gulp.watch('./src/*.ts', ['scripts', 'browserify']);
+gulp.task('watch', ['browserify'], function() {
+    gulp.watch('./src/*.ts', ['browserify']);
 });
 
-gulp.task('default', ['scripts', 'browserify'], function() {
-    // Just build scripts and run browserify
+gulp.task('default', ['browserify'], function() {
+    // Just build ts-scripts and run browserify
 });
