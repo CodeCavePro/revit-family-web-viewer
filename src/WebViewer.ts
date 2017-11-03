@@ -80,7 +80,6 @@ export class WebViewer {
         let newCameraPosition = new Vector3();
         newCameraPosition.addVectors( this.model.boundingSphere.center, direction );
         this.camera.position.set( newCameraPosition.x, newCameraPosition.y, newCameraPosition.z );
-        this.camera.position = newCameraPosition;
     };
 
     /**
@@ -103,7 +102,7 @@ export class WebViewer {
     loadModelFromUrl( url : string ) : void {
 
         Model.loadFromURL(url)
-            .then(function (object3D) {
+            .then((object3D) => {
                 this.scene = new Scene();
                 this.model = new Model( object3D );
 

@@ -18,11 +18,10 @@ export class Model {
      * Creates an instance of RevitModel.
      * @memberof RevitModel
      */
-    constructor( object : Object3D ) {
-        
-        this.object = object;
+    constructor( object3D : Object3D ) {
+        this.object = object3D;
         this.pivot = new Object3D();
-        this.pivot.add( object );
+        this.pivot.add( this.object );
 
         // Compute bounding box for geometry-related operations
         // and bounding sphere for lights
@@ -63,7 +62,7 @@ export class Model {
      */
     getBoundingFigures() : void {
         let geometry = new Geometry();
-        this.object.traverse( function(child) {
+        this.object.traverse( (child) => {
             if(child instanceof Mesh ) {
                 if (child.geometry instanceof Geometry) {
                     geometry.merge( child.geometry );
