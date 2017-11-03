@@ -2,6 +2,7 @@ var gulp = require('gulp');
 var bro = require('gulp-bro');
 var scss = require('gulp-scss');
 var cleanCSS = require('gulp-clean-css');
+var uglify = require('gulp-uglify-es').default;
 var rename = require('gulp-rename');
 var ts = require('gulp-typescript');
 var tsProject = ts.createProject('tsconfig.json');
@@ -19,11 +20,23 @@ gulp.task('ts-scripts', function() {
 
 gulp.task('browserify', [ 'ts-scripts' ], function() {
     gulp.src('./dist/js/index.js')
-    .pipe(sourcemaps.init({largeFile: true, loadMaps: true}))
-    .pipe(bro())
-    .pipe(rename('main.js'))
-    .pipe(sourcemaps.write('./'))
-    .pipe(gulp.dest('./dist/js'));
+        .pipe(sourcemaps.init({largeFile: true, loadMaps: true}))
+        .pipe(bro())
+        .pipe(rename('main.js'))
+        .pipe(sourcemaps.write('./'))
+        .pipe(gulp.dest('./dist/js'));
+});
+
+gulp.task('js-minify', [ 'browserify' ], function (cb) {
+
+     gulp.src('./dist/js/main.js')
+        .pipe(sourcemaps.init({largeFile: true, loadMaps: true}))
+        .pipe(uglify())
+        .pipe(rename({
+            suffix: ".min",
+        }))
+        .pipe(sourcemaps.write('./'))
+        .pipe(gulp.dest('./dist/js'));
 });
 
 gulp.task('scss', function () {
@@ -51,11 +64,15 @@ gulp.task('css-minify', [ 'scss' ], function () {
         .pipe(gulp.dest('./dist/css'));
 });
 
-gulp.task('watch', [ 'browserify', 'css-minify' ], function() {
-    gulp.watch('./src/*.ts', [ 'browserify' ]);
+gulp.task('fast-build', [ 'browserify', 'scss' ], function() {
+    // Faster build
+});
+
+gulp.task('watch', [ 'js-minify', 'css-minify' ], function() {
+    gulp.watch('./src/*.ts', [ 'js-minify' ]);
     gulp.watch('./src/*.scss', [ 'css-minify' ]);
 });
 
-gulp.task('default', [ 'browserify', 'css-minify' ], function() {
-    // Just build ts-scripts and run browserify
+gulp.task('default', [ 'js-minify', 'css-minify' ], function() {
+    // Production-ready build
 });
