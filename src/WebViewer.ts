@@ -26,7 +26,7 @@ export class WebViewer {
         this.camera = new PerspectiveCamera(
             25,                                     // fov — Camera frustum vertical field of view.
             window.innerWidth / window.innerHeight, // spect — Camera frustum aspect ratio.
-            1,                                      // near — Camera frustum near plane.
+            10,                                     // near — Camera frustum near plane.
             1000000                                 // far — Camera frustum far plane.
         );
 
