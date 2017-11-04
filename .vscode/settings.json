@@ -1,6 +1,9 @@
 {
     // Exclude files from VS Code's file explorer
     "files.exclude": {
+        "**/.gulp-scss-cache"   : true,
+        "**/.scss-cache"        : true,
+        "**/.sass-cache"        : true,
         "**/node_modules"       : true,
         "**/yarn.lock"          : false
     },
