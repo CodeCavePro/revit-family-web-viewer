@@ -9,19 +9,19 @@ import { WebViewerOptions } from "./WebViewerOptions";
  * @class RevitWebViewer
  */
 export class WebViewer {
-    scene                   : Scene;                // scene allows you to set up what and where is to be rendered by three.js
-    renderer                : WebGLRenderer;        // WebGL scene renderer
-    orbitControls           : OrbitControls;        // orbit controls object
-    camera                  : PerspectiveCamera;    // perspective camera is designed to mimic the way the human eye sees
-    model                   : Model;
-    lights                  : Lights;
-    options                 : WebViewerOptions;
+    protected scene             : Scene;                // scene allows you to set up what and where is to be rendered by three.js
+    protected renderer          : WebGLRenderer;        // WebGL scene renderer
+    protected orbitControls     : OrbitControls;        // orbit controls object
+    protected camera            : PerspectiveCamera;    // perspective camera is designed to mimic the way the human eye sees
+    protected model             : Model;
+    protected lights            : Lights;
+    protected options           : WebViewerOptions;
 
     /**
      * Creates an instance of RevitWebViewer.
      * @memberof RevitWebViewer
      */
-    constructor() {
+    constructor(options : WebViewerOptions) {
         this.scene = new Scene();
         this.camera = new PerspectiveCamera(
             25,                                     // fov — Camera frustum vertical field of view.
@@ -30,16 +30,18 @@ export class WebViewer {
             1000000                                 // far — Camera frustum far plane.
         );
 
-        this.renderer = new WebGLRenderer(          // the WebGL renderer displays your beautifully crafted scenes using WebGL. 
+        this.renderer = new WebGLRenderer(          // the WebGL renderer displays your beautifully crafted scenes using WebGL.
             {
                 alpha           : true,
                 antialias       : true
             }
         );
 
-        this.options = new WebViewerOptions();
         this.model = null;
         this.lights = null;
+        this.options = (null == options)
+            ? new WebViewerOptions()
+            : options;
     };
 
     init( element : HTMLElement ) : void {
@@ -56,16 +58,16 @@ export class WebViewer {
         this.orbitControls = new OrbitControls( this.camera, this.renderer.domElement );
         this.orbitControls.enableZoom = true;
         this.orbitControls.zoomSpeed = 1.0;
-        this.orbitControls.enablePan = true; // Set to false to disable panning (ie vertical and horizontal translations) 
+        this.orbitControls.enablePan = true; // Set to false to disable panning (ie vertical and horizontal translations)
 
         // tweak orbit controls in order to uncover the "top edge" of the object
         this.orbitControls.target.set( 0, -window.innerHeight / 2, 0 );
 
         element.appendChild( this.renderer.domElement );
 
-        // Set background color of the body element if needed 
+        // Set background color of the body element if needed
         if (this.options.background) {
-            document.getElementsByTagName("body")[0].style.background = this.options.background; 
+            document.getElementsByTagName("body")[0].style.background = this.options.background;
         }
 
         this.bindEvents();
@@ -79,12 +81,12 @@ export class WebViewer {
     tweakCameraAndControls() : void {
         // point the camera at the center of the sphere
         this.orbitControls.target = this.model.boundingSphere.center;
-    
+
         let zAxis = new Vector3( 0, 0, 1 );
         let direction = zAxis.applyQuaternion( this.orbitControls.object.quaternion );
         let offset = this.model.boundingSphere.radius / Math.tan( Math.PI / 180.0 * (<PerspectiveCamera> this.orbitControls.object).fov * 0.5 );
         direction.multiplyScalar( offset * 1.25 );
-    
+
         let newCameraPosition = new Vector3();
         newCameraPosition.addVectors( this.model.boundingSphere.center, direction );
         this.camera.position.set( newCameraPosition.x, newCameraPosition.y, newCameraPosition.z );
@@ -102,7 +104,7 @@ export class WebViewer {
 
             this.camera.aspect = window.innerWidth / window.innerHeight;
             this.camera.updateProjectionMatrix();
-        
+
             this.renderer.setSize( window.innerWidth, window.innerHeight );
         }, false);
     };
@@ -125,12 +127,12 @@ export class WebViewer {
                 if (this.options.originToCenter || 0.0 !== this.options.rotation) {
                     let modelWidth = this.model.boundingBox.max.x - this.model.boundingBox.min.x;
                     let modelHeight = this.model.boundingBox.max.z - this.model.boundingBox.min.z;
-                    this.model.object.traverse( ( child ) => {            
+                    this.model.object.traverse( ( child ) => {
                         if ( ! ( child instanceof Mesh ) ) return false;
-                        child.geometry.translate(modelWidth / 2, 0, modelHeight / 2);       
-                        return true;   
+                        child.geometry.translate(modelWidth / 2, 0, modelHeight / 2);
+                        return true;
                     });
-                
+
                     // Re-compute bounds after moving the object
                     this.model.getBoundingFigures();
                 }

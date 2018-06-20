@@ -7,16 +7,16 @@ export class Lights {
     static readonly lightColorBright    = '#909090';
     static readonly lightOpacity        = 0.75;
 
-    ambientLight                        : AmbientLight;         // ambient light for the scene
-    hemisphereLight                     : HemisphereLight;      // hemisphere light for the scene
-    sunLight                            : DirectionalLight;     // a directional representing the sun
-    spotLights                          : SpotLight[];          // an array of directional lights to provide even coverage of the scene
+    protected ambientLight              : AmbientLight;         // ambient light for the scene
+    protected hemisphereLight           : HemisphereLight;      // hemisphere light for the scene
+    protected sunLight                  : DirectionalLight;     // a directional representing the sun
+    protected spotLights                : SpotLight[];          // an array of directional lights to provide even coverage of the scene
 
     constructor( boundingSphere : Sphere ) {
 
         var offset = boundingSphere.radius * 6;     // get the radius of the bounding sphere for placing lights at certain distance from the object
         var center = boundingSphere.center;         // get the center of the bounding sphere for pointing lights at it
-    
+
         // the sun as directional light
         this.sunLight = new DirectionalLight( Lights.lightColorDark );
         this.sunLight.name = "The sun :)";

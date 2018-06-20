@@ -7,11 +7,11 @@ import { ObjectLoader, Object3D, Geometry, BufferGeometry, Box3, Sphere, Mesh } 
 export class Model {
     static readonly loader  = new ObjectLoader();   // a loader for loading a JSON resource
 
-    object                  : Object3D;             // Revit 3D model, provides a set of properties and methods for manipulating objects in 3D space
-    pivot                   : Object3D;             // needed for rotation and other stuff 
-    geometry                : Geometry;             // the geometry of currently loaded object
-    boundingSphere          : Sphere;               // bounding sphere that encompasses everything in the scene
-    boundingBox             : Box3;                 // bounding box for the Geometry, which can be calculated with
+    readonly object             : Object3D;             // Revit 3D model, provides a set of properties and methods for manipulating objects in 3D space
+    readonly pivot              : Object3D;             // needed for rotation and other stuff
+    protected geometry          : Geometry;             // the geometry of currently loaded object
+    private _boundingSphere     : Sphere;               // bounding sphere that encompasses everything in the scene
+    private _boundingBox        : Box3;                 // bounding box for the Geometry, which can be calculated with
 
     /**
      * Creates an instance of RevitModel.
@@ -28,8 +28,35 @@ export class Model {
     }
 
     /**
+     * Gets _boundingSphere value
+     */
+    get boundingSphere(): Sphere {
+        return this._boundingSphere;
+    }
+    /**
+     * Sets _boundingSphere value
+     */
+    set boundingSphere(boundingSphere: Sphere) {
+        this._boundingSphere = boundingSphere;
+    }
+
+    /**
+     * Gets _boundingBox value
+     */
+    get boundingBox(): Box3 {
+        return this._boundingBox;
+    }
+
+    /**
+     * Sets _boundingBox value
+     */
+    set boundingBox(boundingBox: Box3) {
+        this._boundingBox = boundingBox;
+    }
+
+    /**
      * Loads model object from URL
-     * @param {string} url 
+     * @param {string} url
      * @returns {Promise<Object3D>}
      * @memberof RevitModel
      */
@@ -46,8 +73,8 @@ export class Model {
 
     /**
      * Loads model object from a JSON object
-     * @param {Object} modelJson 
-     * @returns {Object3D} 
+     * @param {Object} modelJson
+     * @returns {Object3D}
      * @memberof RevitModel
      */
     static loadFromJSON( modelJson : Object) : Object3D {
@@ -62,7 +89,7 @@ export class Model {
 
     /**
      * Get model's JSON text content from URL
-     * @param url 
+     * @param url
      */
     static getFromURL(url) : Promise<string>{
         return new Promise<string>(
