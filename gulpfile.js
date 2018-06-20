@@ -18,18 +18,9 @@ gulp.task('ts-scripts', function() {
         .pipe(gulp.dest('./dist/'));
 });
 
-gulp.task('browserify', [ 'ts-scripts' ], function() {
-    gulp.src('./dist//index.js')
-        .pipe(sourcemaps.init({largeFile: true, loadMaps: true}))
-        .pipe(bro())
-        .pipe(rename('main.js'))
-        .pipe(sourcemaps.write('./'))
-        .pipe(gulp.dest('./dist/'));
-});
+gulp.task('js-minify', [ 'js-bundle-demo' ], function (cb) {
 
-gulp.task('js-minify', [ 'browserify' ], function (cb) {
-
-     gulp.src('./dist//main.js')
+     gulp.src('./dist/*.js')
         .pipe(sourcemaps.init({largeFile: true, loadMaps: true}))
         .pipe(uglify())
         .pipe(rename({
@@ -64,11 +55,17 @@ gulp.task('css-minify', [ 'scss-compile' ], function () {
         .pipe(gulp.dest('./demo/css'));
 });
 
-gulp.task('fast-build', [ 'browserify', 'scss' ], function() {
-    // Faster build
+
+gulp.task('js-bundle-demo', [ 'ts-scripts' ], function() {
+    gulp.src('./dist/demo.js')
+        .pipe(sourcemaps.init({largeFile: true, loadMaps: true}))
+        .pipe(bro())
+        .pipe(rename('bundle.js'))
+        .pipe(sourcemaps.write('./'))
+        .pipe(gulp.dest('./demo/js'));
 });
 
-gulp.task('watch', [ 'js-minify', 'css-minify' ], function() {
+gulp.task('watch', [ 'js-minify', 'css-minify', 'js-bundle-demo' ], function() {
     gulp.watch('./src/*.ts', [ 'js-minify' ]);
     gulp.watch('./src/*.scss', [ 'css-minify' ]);
 });
