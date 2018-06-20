@@ -36,14 +36,15 @@
         "noEmitOnError": true,
         "emitDecoratorMetadata": true,
         "removeComments": false,
-        "outDir": "./dist/js/",
+        "outDir": "./dist/",
         "rootDir": "./src/",
-        "baseUrl": "./src"
+        "baseUrl": "./src/"
     },
     "exclude": [
         "bin",
         "test",
         "dist",
+        "demo",
         "node_modules",
         "webpack.config.js",
         "gulpfile.js"

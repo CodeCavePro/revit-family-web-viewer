@@ -12,48 +12,48 @@ gulp.task('ts-scripts', function() {
     var tsResult = gulp.src("./src/**/*.ts")
         .pipe(sourcemaps.init({largeFile: true, loadMaps: true}))
         .pipe(tsProject());
- 
+
     return tsResult.js
         .pipe(sourcemaps.write('./'))
-        .pipe(gulp.dest('./dist/js'));
+        .pipe(gulp.dest('./dist/'));
 });
 
 gulp.task('browserify', [ 'ts-scripts' ], function() {
-    gulp.src('./dist/js/index.js')
+    gulp.src('./dist//index.js')
         .pipe(sourcemaps.init({largeFile: true, loadMaps: true}))
         .pipe(bro())
         .pipe(rename('main.js'))
         .pipe(sourcemaps.write('./'))
-        .pipe(gulp.dest('./dist/js'));
+        .pipe(gulp.dest('./dist/'));
 });
 
 gulp.task('js-minify', [ 'browserify' ], function (cb) {
 
-     gulp.src('./dist/js/main.js')
+     gulp.src('./dist//main.js')
         .pipe(sourcemaps.init({largeFile: true, loadMaps: true}))
         .pipe(uglify())
         .pipe(rename({
             suffix: ".min",
         }))
         .pipe(sourcemaps.write('./'))
-        .pipe(gulp.dest('./dist/js'));
+        .pipe(gulp.dest('./dist/'));
 });
 
 gulp.task('scss', function () {
-    gulp.src('./src/scss/**/*.scss')
+    gulp.src('./scss/**/*.scss')
         .pipe(sourcemaps.init({largeFile: true, loadMaps: false}))
         .pipe(scss({
             // "bundleExec": true
         }))
         .pipe(sourcemaps.write('./'))
-        .pipe(gulp.dest('./dist/css'));
+        .pipe(gulp.dest('./demo/css'));
 });
 
 gulp.task('css-minify', [ 'scss' ], function () {
 
     gulp.src([
-            './dist/css/**/*.css',
-            '!./dist/css/**/*.min.css'
+            './demo/css/**/*.css',
+            '!./demo/css/**/*.min.css'
         ])
         .pipe(sourcemaps.init({largeFile: true, loadMaps: false}))
         .pipe(cleanCSS())
@@ -61,7 +61,7 @@ gulp.task('css-minify', [ 'scss' ], function () {
             suffix: ".min",
         }))
         .pipe(sourcemaps.write('./'))
-        .pipe(gulp.dest('./dist/css'));
+        .pipe(gulp.dest('./demo/css'));
 });
 
 gulp.task('fast-build', [ 'browserify', 'scss' ], function() {

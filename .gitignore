@@ -28,10 +28,11 @@ build/Release
 node_modules
 
 # Exclude CSS files (only SCSS files must be versioned)
-dist/css
+demo/css
+demo/js
 
 # Exclude JavaScript files (only TypeScript files must be versioned)
-dist/js
+dist/
 
 # Exclude some cache folders created by Gulp
 .gulp-scss-cache

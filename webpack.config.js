@@ -1,9 +1,8 @@
 const path = require('path');
-const UglifyJSPlugin = require('uglifyjs-webpack-plugin')
 
 module.exports = {
-  entry: "./index.ts",
   context: __dirname + "/src",
+  entry: "./WebViewer.ts",
   devtool: 'source-map',
   module: {
     rules: [
@@ -25,8 +24,10 @@ module.exports = {
     extensions: [  '.js', '.jsx', '.tsx', '.ts' ]
   },
   output: {
-    filename: 'main.min.js',
-    path: path.resolve(__dirname, 'dist/js')
+    library: 'rfaWebViewer',
+    filename: 'rfaWebViewer.js',
+    libraryTarget: 'commonjs2',
+    path: path.resolve(__dirname, 'dist/')
   },
   node: {
     console: false,
@@ -34,11 +35,5 @@ module.exports = {
     net: 'empty',
     tls: 'empty'
   },
-  plugins: [
-    new UglifyJSPlugin({
-      cache: true,
-      parallel: true,
-      sourceMap: true
-    })
-  ]
+  plugins: []
 };
