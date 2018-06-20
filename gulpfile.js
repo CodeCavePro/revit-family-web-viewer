@@ -1,6 +1,6 @@
 var gulp = require('gulp');
 var bro = require('gulp-bro');
-var scss = require('gulp-scss');
+var scss = require('gulp-sass');
 var cleanCSS = require('gulp-clean-css');
 var uglify = require('gulp-uglify-es').default;
 var rename = require('gulp-rename');
@@ -39,7 +39,7 @@ gulp.task('js-minify', [ 'browserify' ], function (cb) {
         .pipe(gulp.dest('./dist/'));
 });
 
-gulp.task('scss', function () {
+gulp.task('scss-compile', function () {
     gulp.src('./scss/**/*.scss')
         .pipe(sourcemaps.init({largeFile: true, loadMaps: false}))
         .pipe(scss({
@@ -49,7 +49,7 @@ gulp.task('scss', function () {
         .pipe(gulp.dest('./demo/css'));
 });
 
-gulp.task('css-minify', [ 'scss' ], function () {
+gulp.task('css-minify', [ 'scss-compile' ], function () {
 
     gulp.src([
             './demo/css/**/*.css',
