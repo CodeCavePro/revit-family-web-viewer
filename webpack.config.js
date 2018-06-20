@@ -27,7 +27,7 @@ module.exports = {
     library: 'revit-family-web-viewer',
     filename: 'index.js',
     libraryTarget: 'commonjs2',
-    path: path.resolve(__dirname, 'dist/')
+    path: path.resolve(__dirname, 'dist/commonjs')
   },
   node: {
     console: false,

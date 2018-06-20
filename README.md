@@ -8,7 +8,7 @@ Revit Family (.rfa) Web Viewer
 
 Revit Family Web Viewer is a Three.js-based project viewer. Revit projects / families must be exported using [RvtVa3c exporter](https://github.com/va3c/RvtVa3c)
 
-![Usage demo](./demo/assets/unox_demo.gif)
+![Usage demo](./assets/unox_demo.gif)
 
 # License
 Revit Family Web Viewer is licensed under [GPLv3 license](https://github.com/OpenHoReCa/revit-web-viewer/blob/master/LICENSE), which is a [viral license](https://en.wikipedia.org/wiki/Viral_license), therefore you can use it applications distributed under the *SAME* (GPL) or compatible licenses. In most scenarios Revit Family Web Viewer **CAN'T** be distributed as part of a **proprietary** applications, even if you do not change it or charge money for you application.
