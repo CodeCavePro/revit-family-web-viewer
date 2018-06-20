@@ -5,7 +5,7 @@
             "type"      : "chrome",
             "request"   : "launch",
             "name"      : "Launch Chrome",
-            "url"       : "file:///${workspaceFolder}/index.html",
+            "url"       : "file:///${workspaceFolder}/demo/index.html",
             "webRoot"   : "${workspaceRoot}",
             "runtimeArgs": [
                 "--allow-file-access-from-files",
@@ -18,10 +18,10 @@
             "request"   : "launch",
             "name"      : "Launch Firefox",
             "reAttach"  : true,
-            "file"      : "${workspaceFolder}/index.html",
+            "file"      : "${workspaceFolder}/demo/index.html",
             "webRoot"   : "${workspaceRoot}",
             "windows": {
-                "file"      : "${workspaceRoot}\\index.html"
+                "file"      : "${workspaceRoot}\\demo\\index.html"
             }
         }
     ]

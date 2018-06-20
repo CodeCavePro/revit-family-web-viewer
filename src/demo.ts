@@ -8,5 +8,5 @@ let options = new WebViewerOptions(
 );
 let rwv = new WebViewer(options);
 rwv.init( document.getElementById('main') );
-rwv.loadModelFromUrl( './demo/models/6-Burner_Gas_Stove.json' );
+rwv.loadModelFromUrl( './models/6-Burner_Gas_Stove.json' );
 console.log('Revit Web Viewer has been initialized successfully!');
