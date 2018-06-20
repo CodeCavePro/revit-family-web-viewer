@@ -23,9 +23,9 @@
   version "8.0.47"
   resolved "https://registry.yarnpkg.com/@types/node/-/node-8.0.47.tgz#968e596f91acd59069054558a00708c445ca30c2"
 
-"@types/three@^0.84.28":
-  version "0.84.29"
-  resolved "https://registry.yarnpkg.com/@types/three/-/three-0.84.29.tgz#3d6789f80dd334df6a6894fa1713711258e0683f"
+"@types/three@^0.92.6":
+  version "0.92.6"
+  resolved "https://registry.yarnpkg.com/@types/three/-/three-0.92.6.tgz#4b30ef58c0631749a9e68bd68322943bb6eed76e"
   dependencies:
     "@types/webvr-api" "*"
 
@@ -3452,6 +3452,10 @@ three-orbitcontrols-ts@^0.1.2:
 three@^0.83.0:
   version "0.83.0"
   resolved "https://registry.yarnpkg.com/three/-/three-0.83.0.tgz#3b7f94790af3e021dac1f44a2617569ca2032b0b"
+
+three@^0.93.0:
+  version "0.93.0"
+  resolved "https://registry.yarnpkg.com/three/-/three-0.93.0.tgz#3fd6c367ef4554abbb6e16ad69936283e895c123"
 
 through2-filter@^2.0.0:
   version "2.0.0"
