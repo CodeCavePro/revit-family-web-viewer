@@ -5,12 +5,9 @@
             "type"      : "chrome",
             "request"   : "launch",
             "name"      : "Launch Chrome",
-            "url"       : "${workspaceRoot}/index.html",
+            "url"       : "file:///${workspaceFolder}/index.html",
             "webRoot"   : "${workspaceRoot}",
-            "windows": {
-                "url"       : "${workspaceRoot}\\index.html"
-            },
-            "runtimeArgs": [ 
+            "runtimeArgs": [
                 "--allow-file-access-from-files",
                 "--disable-web-security",
                 " --user-data-dir"
