@@ -6,9 +6,5 @@
         "**/.sass-cache"        : true,
         "**/node_modules"       : true,
         "**/yarn.lock"          : false
-    },
-
-    // Easy SASS (VS Code) extension's settings
-    "easysass.excludeRegex"     : "^(?!main.scss).+",
-    "easysass.targetDir"        : "dist/css"
+    }
 }

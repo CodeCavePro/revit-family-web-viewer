@@ -27,13 +27,6 @@ build/Release
 # https://docs.npmjs.com/misc/faq#should-i-check-my-node-modules-folder-into-git
 node_modules
 
-# Exclude CSS files (only SCSS files must be versioned)
-demo/css
-demo/js
-
-# Exclude JavaScript files (only TypeScript files must be versioned)
-dist/
-
 # Exclude some cache folders created by Gulp
 .gulp-scss-cache
 .sass-cache

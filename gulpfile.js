@@ -2,57 +2,43 @@ var gulp = require('gulp'),
     bro = require('gulp-bro'),
     scss = require('gulp-sass'),
     cleanCSS = require('gulp-clean-css'),
-    uglify = require('gulp-uglify-es').default,
     rename = require('gulp-rename'),
-    ts = require('gulp-typescript'),
-    tsProject = ts.createProject('tsconfig.json'),
     sourcemaps = require('gulp-sourcemaps'),
     browserify = require('browserify'),
     source = require('vinyl-source-stream'),
     babelify = require('babelify'),
     buffer = require('vinyl-buffer');
 
-gulp.task('ts-scripts', [ 'ts-scripts-es6', 'ts-scripts-commonjs' ]);
 
-gulp.task('ts-scripts-es6', function() {
-    var tsConfig = tsProject.config.compilerOptions;
-    tsConfig.module = 'es6'; // force module type = 'es6'
-    var tsResult = gulp.src("./src/**/*.ts")
-        .pipe(sourcemaps.init({largeFile: true, loadMaps: true}))
-        .pipe(ts(tsConfig));
+gulp.task('js-bundle', [
+    'js-bundle-es6',
+    'js-bundle-commonjs'
+]);
 
-    return tsResult.js
-        .pipe(sourcemaps.write('./'))
-        .pipe(gulp.dest('./dist/es6'));
-});
 
-gulp.task('ts-scripts-commonjs', function() {
-    var tsConfig = tsProject.config.compilerOptions;
-    tsConfig.module = 'commonjs'; // force module type = 'commonjs'
-    var tsResult = gulp.src("./src/**/*.ts")
-        .pipe(sourcemaps.init({largeFile: true, loadMaps: true}))
-        .pipe(ts(tsConfig));
-
-    return tsResult.js
-        .pipe(sourcemaps.write('./'))
-        .pipe(gulp.dest('./dist/commonjs'));
-});
-
-gulp.task('js-demo-bundle', [ 'ts-scripts' ], function() {
-    browserify(['./demo/src/demo.es6'])
-        .transform(babelify)
+gulp.task('js-bundle-es6', function() {
+    browserify(['./src/demo.es6'])
+        .transform(babelify, {
+            presets: [
+                "@babel/preset-env"
+            ]
+        })
         .bundle()
         .pipe(source('demo.es6.bundled.js'))
-        .pipe(gulp.dest('demo/js'))
+        .pipe(gulp.dest('dist/js'))
         .pipe(buffer());
+});
 
-    gulp.src('./demo/src/demo.js')
+
+gulp.task('js-bundle-commonjs', function() {
+    gulp.src('./src/demo.js')
         .pipe(bro())
         .pipe(rename({
             suffix: ".bundle",
         }))
-        .pipe(gulp.dest('./demo/js'));
+        .pipe(gulp.dest('./dist/js'));
 });
+
 
 gulp.task('scss-compile', function () {
     gulp.src('./scss/**/*.scss')
@@ -61,13 +47,14 @@ gulp.task('scss-compile', function () {
             // "bundleExec": true
         }))
         .pipe(sourcemaps.write('./'))
-        .pipe(gulp.dest('./demo/css'));
+        .pipe(gulp.dest('./dist/css'));
 });
+
 
 gulp.task('css-minify', [ 'scss-compile' ], function () {
     gulp.src([
-            './demo/css/**/*.css',
-            '!./demo/css/**/*.min.css'
+            './dist/css/**/*.css',
+            '!./dist/css/**/*.min.css'
         ])
         .pipe(sourcemaps.init({largeFile: true, loadMaps: false}))
         .pipe(cleanCSS())
@@ -75,13 +62,14 @@ gulp.task('css-minify', [ 'scss-compile' ], function () {
             suffix: ".min",
         }))
         .pipe(sourcemaps.write('./'))
-        .pipe(gulp.dest('./demo/css'));
+        .pipe(gulp.dest('./dist/css'));
 });
 
-gulp.task('watch', [ 'css-minify', 'js-demo-bundle' ], function() {
-    gulp.watch('./src/*.scss', [ 'css-minify' ]);
+
+gulp.task('watch', [ 'css-minify', 'js-bundle' ], function() {
+    gulp.watch('./scss/*.scss', [ 'css-minify' ]);
+    gulp.watch('./src/*.js', [ 'js-bundle' ]);
 });
 
-gulp.task('default', [ 'css-minify', 'js-demo-bundle' ], function() {
-    // Production-ready build
-});
+
+gulp.task('default', [ 'css-minify', 'js-bundle' ]);
