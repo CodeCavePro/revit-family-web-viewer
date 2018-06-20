@@ -36,6 +36,7 @@
         "noEmitOnError": true,
         "emitDecoratorMetadata": true,
         "removeComments": false,
+        // "outFile": "./dist/index.js",
         "outDir": "./dist/",
         "rootDir": "./src/",
         "baseUrl": "./src/"

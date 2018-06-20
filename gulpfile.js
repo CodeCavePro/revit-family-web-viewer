@@ -18,6 +18,17 @@ gulp.task('ts-scripts', function() {
         .pipe(gulp.dest('./dist/'));
 });
 
+gulp.task('js-demo-bundle', [ 'ts-scripts' ], function() {
+    gulp.src('./demo/js/demo.js')
+        .pipe(sourcemaps.init({largeFile: true, loadMaps: true}))
+        .pipe(bro())
+        .pipe(rename({
+            suffix: ".bundled",
+        }))
+        .pipe(sourcemaps.write('./'))
+        .pipe(gulp.dest('./demo/js'));
+});
+
 gulp.task('js-minify', [ 'js-bundle-demo' ], function (cb) {
 
     gulp.src([
@@ -56,16 +67,6 @@ gulp.task('css-minify', [ 'scss-compile' ], function () {
         }))
         .pipe(sourcemaps.write('./'))
         .pipe(gulp.dest('./demo/css'));
-});
-
-
-gulp.task('js-bundle-demo', [ 'ts-scripts' ], function() {
-    gulp.src('./dist/demo.js')
-        .pipe(sourcemaps.init({largeFile: true, loadMaps: true}))
-        .pipe(bro())
-        .pipe(rename('bundle.js'))
-        .pipe(sourcemaps.write('./'))
-        .pipe(gulp.dest('./demo/js'));
 });
 
 gulp.task('watch', [ 'js-minify', 'css-minify', 'js-bundle-demo' ], function() {
