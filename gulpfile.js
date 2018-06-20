@@ -20,7 +20,10 @@ gulp.task('ts-scripts', function() {
 
 gulp.task('js-minify', [ 'js-bundle-demo' ], function (cb) {
 
-     gulp.src('./dist/*.js')
+    gulp.src([
+        './dist/**/*.js',
+        '!./dist/**/*.min.js'
+    ])
         .pipe(sourcemaps.init({largeFile: true, loadMaps: true}))
         .pipe(uglify())
         .pipe(rename({
