@@ -1,47 +1,57 @@
-var gulp = require('gulp');
-var bro = require('gulp-bro');
-var scss = require('gulp-sass');
-var cleanCSS = require('gulp-clean-css');
-var uglify = require('gulp-uglify-es').default;
-var rename = require('gulp-rename');
-var ts = require('gulp-typescript');
-var tsProject = ts.createProject('tsconfig.json');
-var sourcemaps = require('gulp-sourcemaps');
+var gulp = require('gulp'),
+    bro = require('gulp-bro'),
+    scss = require('gulp-sass'),
+    cleanCSS = require('gulp-clean-css'),
+    uglify = require('gulp-uglify-es').default,
+    rename = require('gulp-rename'),
+    ts = require('gulp-typescript'),
+    tsProject = ts.createProject('tsconfig.json'),
+    sourcemaps = require('gulp-sourcemaps'),
+    browserify = require('browserify'),
+    source = require('vinyl-source-stream'),
+    babelify = require('babelify'),
+    buffer = require('vinyl-buffer');
 
-gulp.task('ts-scripts', function() {
+gulp.task('ts-scripts', [ 'ts-scripts-es6', 'ts-scripts-commonjs' ]);
+
+gulp.task('ts-scripts-es6', function() {
+    var tsConfig = tsProject.config.compilerOptions;
+    tsConfig.module = 'es6'; // force module type = 'es6'
     var tsResult = gulp.src("./src/**/*.ts")
         .pipe(sourcemaps.init({largeFile: true, loadMaps: true}))
-        .pipe(tsProject());
+        .pipe(ts(tsConfig));
 
     return tsResult.js
         .pipe(sourcemaps.write('./'))
-        .pipe(gulp.dest('./dist/'));
+        .pipe(gulp.dest('./dist/es6'));
+});
+
+gulp.task('ts-scripts-commonjs', function() {
+    var tsConfig = tsProject.config.compilerOptions;
+    tsConfig.module = 'commonjs'; // force module type = 'commonjs'
+    var tsResult = gulp.src("./src/**/*.ts")
+        .pipe(sourcemaps.init({largeFile: true, loadMaps: true}))
+        .pipe(ts(tsConfig));
+
+    return tsResult.js
+        .pipe(sourcemaps.write('./'))
+        .pipe(gulp.dest('./dist/commonjs'));
 });
 
 gulp.task('js-demo-bundle', [ 'ts-scripts' ], function() {
-    gulp.src('./demo/js/demo.js')
-        .pipe(sourcemaps.init({largeFile: true, loadMaps: true}))
+    browserify(['./demo/src/demo.es6'])
+        .transform(babelify)
+        .bundle()
+        .pipe(source('demo.es6.bundled.js'))
+        .pipe(gulp.dest('demo/js'))
+        .pipe(buffer());
+
+    gulp.src('./demo/src/demo.js')
         .pipe(bro())
         .pipe(rename({
-            suffix: ".bundled",
+            suffix: ".bundle",
         }))
-        .pipe(sourcemaps.write('./'))
         .pipe(gulp.dest('./demo/js'));
-});
-
-gulp.task('js-minify', [ 'js-bundle-demo' ], function (cb) {
-
-    gulp.src([
-        './dist/**/*.js',
-        '!./dist/**/*.min.js'
-    ])
-        .pipe(sourcemaps.init({largeFile: true, loadMaps: true}))
-        .pipe(uglify())
-        .pipe(rename({
-            suffix: ".min",
-        }))
-        .pipe(sourcemaps.write('./'))
-        .pipe(gulp.dest('./dist/'));
 });
 
 gulp.task('scss-compile', function () {
@@ -55,7 +65,6 @@ gulp.task('scss-compile', function () {
 });
 
 gulp.task('css-minify', [ 'scss-compile' ], function () {
-
     gulp.src([
             './demo/css/**/*.css',
             '!./demo/css/**/*.min.css'
@@ -69,11 +78,10 @@ gulp.task('css-minify', [ 'scss-compile' ], function () {
         .pipe(gulp.dest('./demo/css'));
 });
 
-gulp.task('watch', [ 'js-minify', 'css-minify', 'js-bundle-demo' ], function() {
-    gulp.watch('./src/*.ts', [ 'js-minify' ]);
+gulp.task('watch', [ 'css-minify', 'js-demo-bundle' ], function() {
     gulp.watch('./src/*.scss', [ 'css-minify' ]);
 });
 
-gulp.task('default', [ 'js-minify', 'css-minify' ], function() {
+gulp.task('default', [ 'css-minify', 'js-demo-bundle' ], function() {
     // Production-ready build
 });
