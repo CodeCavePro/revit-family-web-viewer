@@ -20,6 +20,7 @@
     "file-loader": "^1.1.5",
     "gulp": "^3.9.1",
     "gulp-typescript": "^3.2.3",
+    "gulp-sourcemaps": "^2.6.4",
     "json-loader": "^0.5.7",
     "three": "^0.93.0",
     "@avatsaev/three-orbitcontrols-ts": "^0.1.5",
