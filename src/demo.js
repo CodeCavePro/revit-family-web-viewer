@@ -9,6 +9,6 @@ var options = new rfa.WebViewerOptions(
 
 var viewer = new rfa.WebViewer(options);                            // Create viewer object
 viewer.init(document.getElementById('main'));                       // Set HTML host element
-viewer.loadModelFromUrl('./models/6-Burner_Gas_Stove.json');        // Load the model from JSON file
+viewer.loadModelFromUrl('./dist/models/6-Burner_Gas_Stove.json');        // Load the model from JSON file
 
 console.log('Revit Web Viewer has been initialized successfully!');
