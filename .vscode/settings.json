@@ -6,5 +6,9 @@
         "**/.sass-cache"        : true,
         "**/node_modules"       : true,
         "**/yarn.lock"          : false
+    },
+
+    "files.associations": {
+        "*.cjs": "javascript"
     }
 }

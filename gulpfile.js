@@ -1,14 +1,10 @@
-var gulp = require('gulp'),
-    bro = require('gulp-bro'),
-    scss = require('gulp-sass'),
-    cleanCSS = require('gulp-clean-css'),
-    rename = require('gulp-rename'),
-    sourcemaps = require('gulp-sourcemaps'),
-    browserify = require('browserify'),
-    source = require('vinyl-source-stream'),
-    babelify = require('babelify'),
-    buffer = require('vinyl-buffer');
-
+var gulp        = require('gulp'),
+    bro         = require('gulp-bro'),
+    scss        = require('gulp-sass'),
+    cleanCSS    = require('gulp-clean-css'),
+    rename      = require('gulp-rename'),
+    sourcemaps  = require('gulp-sourcemaps'),
+    babelify    = require('babelify');
 
 gulp.task('js-bundle', [
     'js-bundle-es6',
@@ -17,24 +13,26 @@ gulp.task('js-bundle', [
 
 
 gulp.task('js-bundle-es6', function() {
-    return browserify(['./src/demo.es6'])
-        .transform(babelify, {
-            presets: [
-                "@babel/preset-env"
+    return gulp.src('./src/demo.es6')
+        .pipe(bro({
+            transform: [
+                babelify.configure({ presets: [ "@babel/preset-env" ] })
             ]
-        })
-        .bundle()
-        .pipe(source('demo.es6.bundled.js'))
-        .pipe(gulp.dest('dist/js'))
-        .pipe(buffer());
+        }))
+        .pipe(rename({
+            basename: "demo.es6",
+            extname: ".bundled.js",
+        }))
+        .pipe(gulp.dest('./dist/js'));
 });
 
 
 gulp.task('js-bundle-commonjs', function() {
-    return gulp.src('./src/demo.js')
+    return gulp.src('./src/demo.cjs')
         .pipe(bro())
         .pipe(rename({
-            suffix: ".bundled",
+            basename: "demo.cjs",
+            extname: ".bundled.js",
         }))
         .pipe(gulp.dest('./dist/js'));
 });
