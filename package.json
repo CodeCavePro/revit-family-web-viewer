@@ -1,6 +1,6 @@
 {
   "name": "revit-family-web-viewer",
-  "version": "0.3.0",
+  "version": "0.3.1",
   "license": "GPL-3.0",
   "description": "Revit Family Web Viewer is a Three.js-based model viewer",
   "main": "dist/commonjs/index.js",
