@@ -2,13 +2,19 @@
 # yarn lockfile v1
 
 
+"@avatsaev/three-orbitcontrols-ts@^0.1.5":
+  version "0.1.5"
+  resolved "https://registry.yarnpkg.com/@avatsaev/three-orbitcontrols-ts/-/three-orbitcontrols-ts-0.1.5.tgz#7987c7d34f2cfb7550cf0893368d24747a5487a8"
+  dependencies:
+    three "^0.84"
+
 "@types/node@^8.0.47":
   version "8.10.20"
   resolved "https://registry.yarnpkg.com/@types/node/-/node-8.10.20.tgz#fe674ea52e13950ab10954433a7824438aabbcac"
 
-"@types/three@^0.92.6":
-  version "0.92.6"
-  resolved "https://registry.yarnpkg.com/@types/three/-/three-0.92.6.tgz#4b30ef58c0631749a9e68bd68322943bb6eed76e"
+"@types/three@^0.92.7":
+  version "0.92.7"
+  resolved "https://registry.yarnpkg.com/@types/three/-/three-0.92.7.tgz#b91f1c0c29ac8d1aef6bcb4c0756597262c24461"
   dependencies:
     "@types/webvr-api" "*"
 
@@ -3065,15 +3071,9 @@ tar@^4:
     safe-buffer "^5.1.2"
     yallist "^3.0.2"
 
-three-orbitcontrols-ts@^0.1.2:
-  version "0.1.2"
-  resolved "https://registry.yarnpkg.com/three-orbitcontrols-ts/-/three-orbitcontrols-ts-0.1.2.tgz#2040955904022ae19c2e9c52ffdff43168658abd"
-  dependencies:
-    three "^0.83.0"
-
-three@^0.83.0:
-  version "0.83.0"
-  resolved "https://registry.yarnpkg.com/three/-/three-0.83.0.tgz#3b7f94790af3e021dac1f44a2617569ca2032b0b"
+three@^0.84:
+  version "0.84.0"
+  resolved "https://registry.yarnpkg.com/three/-/three-0.84.0.tgz#95be85a55a0fa002aa625ed559130957dcffd918"
 
 three@^0.93.0:
   version "0.93.0"

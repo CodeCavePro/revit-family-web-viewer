@@ -1,5 +1,5 @@
 import { Scene, WebGLRenderer, PerspectiveCamera, Vector3, Mesh } from 'three';
-import { OrbitControls } from 'three-orbitcontrols-ts';
+import { OrbitControls } from '@avatsaev/three-orbitcontrols-ts';
 import { Model } from "./Model";
 import { Lights } from "./Lights";
 import { WebViewerOptions } from "./WebViewerOptions";
