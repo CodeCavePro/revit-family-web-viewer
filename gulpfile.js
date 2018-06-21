@@ -17,7 +17,7 @@ gulp.task('js-bundle', [
 
 
 gulp.task('js-bundle-es6', function() {
-    browserify(['./src/demo.es6'])
+    return browserify(['./src/demo.es6'])
         .transform(babelify, {
             presets: [
                 "@babel/preset-env"
@@ -31,17 +31,17 @@ gulp.task('js-bundle-es6', function() {
 
 
 gulp.task('js-bundle-commonjs', function() {
-    gulp.src('./src/demo.js')
+    return gulp.src('./src/demo.js')
         .pipe(bro())
         .pipe(rename({
-            suffix: ".bundle",
+            suffix: ".bundled",
         }))
         .pipe(gulp.dest('./dist/js'));
 });
 
 
 gulp.task('scss-compile', function () {
-    gulp.src('./scss/**/*.scss')
+    return gulp.src('./scss/**/*.scss')
         .pipe(sourcemaps.init({largeFile: true, loadMaps: false}))
         .pipe(scss({
             // "bundleExec": true
@@ -52,7 +52,7 @@ gulp.task('scss-compile', function () {
 
 
 gulp.task('css-minify', [ 'scss-compile' ], function () {
-    gulp.src([
+    return gulp.src([
             './dist/css/**/*.css',
             '!./dist/css/**/*.min.css'
         ])
