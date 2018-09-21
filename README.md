@@ -6,6 +6,10 @@ Revit Family (.rfa) Web Viewer
 [![Git_tag](https://img.shields.io/github/tag/OpenHoReCa/revit-web-viewer.svg?colorB=8e8c5a)](https://github.com/OpenHoReCa/revit-web-viewer/tags)
 [![Language](https://img.shields.io/github/languages/top/OpenHoReCa/revit-web-viewer.svg?colorB=0f6f6f&maxAge=3600)](https://github.com/OpenHoReCa/revit-web-viewer/search?l=typescript)
 
+[![Donate Patreon](https://img.shields.io/badge/donate-Patreon-f96854.svg)](https://www.patreon.com/salaros/)
+[![Donate Paypal](https://img.shields.io/badge/donate-PayPal-009cde.svg)](https://paypal.me/salarosIT)
+[![Donate Liberapay](https://img.shields.io/badge/donate-Liberapay-ffc600.svg)](https://liberapay.com/salaros/)
+
 Revit Family Web Viewer is a Three.js-based project viewer. Revit projects / families must be exported using [RvtVa3c exporter](https://github.com/va3c/RvtVa3c)
 
 ![Usage demo](./assets/unox_demo.gif)
